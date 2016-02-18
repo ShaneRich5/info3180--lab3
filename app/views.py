@@ -19,12 +19,46 @@ def home():
     """Render website's home page."""
     return render_template('home.html')
 
+@app.route('/contact')
+def contact():
+    """Render website's contact page."""
+    return render_template('contact.html')
 
 @app.route('/about/')
 def about():
     """Render the website's about page."""
     return render_template('about.html')
 
+def send_email(name, email, subject, new_message):
+    fromaddr = 'shane.richards212@gmail.com'
+    toaddr = 'david@alteroo.com'
+    fromname = 'Shane'
+    toname = 'David Bain'
+    
+    message = """
+        From: {} <{}>
+        To: {} <{}>
+        Subject: {}
+
+        {}
+        """
+
+    messagetosend = message.format(
+        name,
+        email,
+        toname,
+        toaddr,
+        subject,
+        new_message)
+
+    username = "shane.richards212@gmail"
+    password = "curryishot"
+
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username, password)
+    server.sendmail(fromaddr, toaddr, messagetosend)
+    server.quit()
 
 ###
 # The functions below should be applicable to all Flask apps.
